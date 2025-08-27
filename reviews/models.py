@@ -6,3 +6,4 @@ class Review(models.Model):
     user_name = models.CharField(max_length=100)
     review_text = models.TextField()
     reting = models.IntegerField()
+    
