@@ -4,6 +4,7 @@ from .forms import ReviewForm
 from django.views import View
 from django.views.generic.base import TemplateView
 from .models import Review
+from django.views.generic import ListView, DetailView
 
 # Create your views here.
 
@@ -35,19 +36,31 @@ class ThankYouView(TemplateView):
         context['message'] = "This Works!"
         return context
     
-class ReviewListView(TemplateView):
+# class ReviewListView(TemplateView):
+#     template_name = "reviews/review_list.html"
+#     def get_context_data(self, **kwargs):
+#         context =  super().get_context_data(**kwargs)
+#         reviews = Review.objects.all()
+#         context['reviews'] = reviews
+#         return context
+class ReviewListView(ListView):
     template_name = "reviews/review_list.html"
-    def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
-        reviews = Review.objects.all()
-        context['reviews'] = reviews
-        return context
+    model = Review
+    # context_object_name = "reviews"
+    # def get_queryset(self):
+    #     base_query =  super().get_queryset()
+    #     data = base_query.filter(reting__gt=4)
+    #     return data
     
-class ReviewDetailView(TemplateView):
+# class ReviewDetailView(TemplateView):
+#     template_name = "reviews/review_detail.html"
+#     def get_context_data(self, **kwargs):
+#         context =  super().get_context_data(**kwargs)
+#         review_id = kwargs['id']
+#         selected_review = Review.objects.get(pk=review_id)
+#         context['review'] = selected_review
+#         return context
+
+class ReviewDetailView(DetailView):
     template_name = "reviews/review_detail.html"
-    def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
-        review_id = kwargs['id']
-        selected_review = Review.objects.get(pk=review_id)
-        context['review'] = selected_review
-        return context
+    model = Review # on peut utiliser object ou review pour le variable sur template
