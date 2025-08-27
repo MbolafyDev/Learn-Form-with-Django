@@ -81,3 +81,16 @@ class ReviewListView(ListView):
 class ReviewDetailView(DetailView):
     template_name = "reviews/review_detail.html"
     model = Review # on peut utiliser object ou review pour le variable sur template
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        loaded_review = self.object
+        request = self.request
+        favorite_id = request.session["favorite_review"]
+        context["is_favorite"] = favorite_id == str(loaded_review)
+        return context
+
+class AddFavoriteView(View):
+    def post(self, request):
+        review_id = request.POST['review_id']
+        request.session["favorite_review"] = review_id
+        return HttpResponseRedirect("/detail-views/" + review_id)
